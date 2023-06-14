@@ -8,7 +8,7 @@
   - title: Auteco Poc
     name: Auteco Poc
     model: auteco_1
-    explore: auteco_poc
+    explore: tabla_auteco
     type: looker_line
     fields: [auteco_poc.promedio_precio, auteco_poc.date, auteco_poc.empresa]
     pivots: [auteco_poc.empresa]
@@ -64,7 +64,7 @@
   - title: New Tile
     name: New Tile
     model: auteco_1
-    explore: auteco_poc
+    explore: tabla_auteco
     type: single_value
     fields: [auteco_poc.empresa_imagen]
     sorts: [auteco_poc.empresa_imagen]
@@ -123,7 +123,7 @@
   - title: etiqueta
     name: etiqueta
     model: auteco_1
-    explore: auteco_poc
+    explore: tabla_auteco
     type: single_value
     fields: [auteco_poc.promedio_precio, auteco_poc.empresa, auteco_poc.date]
     filters: {}
@@ -193,7 +193,7 @@
   - title: Unidades
     name: Unidades
     model: auteco_1
-    explore: auteco_poc
+    explore: tabla_auteco
     type: looker_pie
     fields: [unidades, auteco_poc.empresa_link]
     sorts: [porcentaje_de_unidades desc]
@@ -268,7 +268,7 @@
   - title: Promedio Precio
     name: Promedio Precio
     model: auteco_1
-    explore: auteco_poc
+    explore: tabla_auteco
     type: looker_column
     fields: [auteco_poc.promedio_precio, auteco_poc.empresa_link]
     sorts: [auteco_poc.promedio_precio desc 0]
@@ -365,7 +365,7 @@
       type: dropdown_menu
       display: inline
     model: auteco_1
-    explore: auteco_poc
+    explore: tabla_auteco
     listens_to_filters: []
     field: auteco_poc.date_granularity
   - name: Empresa
@@ -378,7 +378,7 @@
       type: tag_list
       display: popover
     model: auteco_1
-    explore: auteco_poc
+    explore: tabla_auteco
     listens_to_filters: [Subcategoria]
     field: auteco_poc.empresa
   - name: Subcategoria
@@ -391,7 +391,7 @@
       type: checkboxes
       display: popover
     model: auteco_1
-    explore: auteco_poc
+    explore: tabla_auteco
     listens_to_filters: [Empresa]
     field: auteco_poc.subcategoria
   - name: Segmento
@@ -404,7 +404,7 @@
       type: tag_list
       display: popover
     model: auteco_1
-    explore: auteco_poc
+    explore: tabla_auteco
     listens_to_filters: [Empresa, Subcategoria]
     field: auteco_poc.segmento
   - name: Subsegmento
@@ -417,7 +417,7 @@
       type: tag_list
       display: popover
     model: auteco_1
-    explore: auteco_poc
+    explore: tabla_auteco
     listens_to_filters: [Empresa, Subcategoria, Segmento]
     field: auteco_poc.subsegmento
   - name: Linea
@@ -430,6 +430,6 @@
       type: tag_list
       display: popover
     model: auteco_1
-    explore: auteco_poc
+    explore: tabla_auteco
     listens_to_filters: [Empresa, Subcategoria, Segmento, Subsegmento]
     field: auteco_poc.linea
