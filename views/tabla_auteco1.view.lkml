@@ -1,4 +1,4 @@
-view: tabla_auteco {
+view: tabla_auteco1 {
   sql_table_name: `analitica-demos.auteco.tabla_auteco`
     ;;
 
@@ -164,17 +164,6 @@ view: tabla_auteco {
     sql: ROUND(AVG(CASE WHEN ${TABLE}.AVG_PRECIO <> 0 THEN ${TABLE}.AVG_PRECIO END), 2) ;;
     value_format: "$#,##0.00"
     drill_fields: [detalles*]
-  }
-  dimension: precio_ajustado {
-    type: number
-    sql: ${avg_trm} * ${precio_dolarizado} ;;
-    value_format: "$#,##0.00"
-  }
-
-  measure: promedio_precio_a {
-    type: number
-    sql: AVG(${precio_ajustado}) ;;
-    value_format: "$#,##0.00"
   }
   measure: unidades {
     type: sum

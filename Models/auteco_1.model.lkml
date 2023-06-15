@@ -1,7 +1,9 @@
 connection: "auteco"
 
-# include all the views
+
 include: "/views/**/*.view"
+
+#include: "/Dashboard/**/*.dashboard.lookml"
 
 datagroup: auteco_1_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
@@ -11,3 +13,4 @@ datagroup: auteco_1_default_datagroup {
 persist_with: auteco_1_default_datagroup
 
 explore: tabla_auteco {}
+explore: tabla_auteco1 {}
