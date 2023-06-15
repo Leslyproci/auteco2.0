@@ -61,6 +61,11 @@ view: tabla_auteco {
     type: string
     sql: ${TABLE}.SUBSEGMENTO ;;
   }
+  dimension: precio_ajustado {
+    type: number
+    sql: ${avg_trm} * ${precio_dolarizado} ;;
+    value_format: "$#,##0.00"
+  }
 #############Dimensiones creadas############################
   dimension: fecha {
     type: date
@@ -165,11 +170,7 @@ view: tabla_auteco {
     value_format: "$#,##0.00"
     drill_fields: [detalles*]
   }
-  dimension: precio_ajustado {
-    type: number
-    sql: ${avg_trm} * ${precio_dolarizado} ;;
-    value_format: "$#,##0.00"
-  }
+
 
   measure: promedio_precio_a {
     type: number
