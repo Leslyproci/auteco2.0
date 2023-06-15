@@ -13,4 +13,3 @@ datagroup: auteco_1_default_datagroup {
 persist_with: auteco_1_default_datagroup
 
 explore: tabla_auteco {}
-explore: tabla_auteco1 {}
