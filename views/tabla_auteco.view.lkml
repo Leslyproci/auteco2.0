@@ -4,7 +4,7 @@ view: tabla_auteco {
 
   dimension: anio {
     type: number
-    sql: ${TABLE}.ANIO ;;
+    sql: ${TABLE}.ANIO  ;;
   }
 
   dimension: avg_precio {
@@ -125,6 +125,15 @@ view: tabla_auteco {
       icon_url: "http://google.com/favicon.ico"
     }
   }
+  dimension: linea_link {
+    type: string
+    sql: ${linea} ;;
+    link: {
+      label: "Google"
+      url: "http://www.google.com/search?q={{ value }}"
+      icon_url: "http://google.com/favicon.ico"
+    }
+  }
   dimension: empresa_imagen {
     type: string
     sql: ${empresa} ;;
@@ -163,7 +172,7 @@ view: tabla_auteco {
     type: number
     sql: ROUND(AVG(CASE WHEN ${TABLE}.AVG_PRECIO <> 0 THEN ${TABLE}.AVG_PRECIO END), 2) ;;
     value_format: "$#,##0"
-    drill_fields: [detalles*]
+    drill_fields: [detalles_unidades*]
   }
 
 
@@ -176,10 +185,11 @@ view: tabla_auteco {
   measure: unidades {
     type: sum
     sql: ${cantidad} ;;
+    drill_fields: [linea_link,fecha_month,cantidad]
     ## html: {{ unidades }} | {{  }} of total ;;
   }
-  set: detalles {
-    fields: [empresa, segmento, subsegmento, unidades]
+  set: detalles_unidades {
+    fields: [linea_link, unidades]
   }
 
 #######################################################################################
@@ -200,6 +210,7 @@ view: tabla_auteco {
   }
 
   measure: medidas_dinamicas {
+    type: number
     sql: {% if filtro_medidas._parameter_value == 'unidades' %}
           ${unidades}
         {% elsif filtro_medidas._parameter_value == 'promedio_precio' %}
