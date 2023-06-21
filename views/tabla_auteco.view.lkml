@@ -159,15 +159,10 @@ view: tabla_auteco {
     type: count
   }
 
-#  measure: promedio_precio {
-#    type: number
-#    sql: ROUND(AVG(${TABLE}.AVG_PRECIO),2) ;;
-#    value_format: "$#,##0.00"
-#  }
   measure: promedio_precio {
     type: number
     sql: ROUND(AVG(CASE WHEN ${TABLE}.AVG_PRECIO <> 0 THEN ${TABLE}.AVG_PRECIO END), 2) ;;
-    value_format: "$#,##0.00"
+    value_format: "$#,##0"
     drill_fields: [detalles*]
   }
 
@@ -175,8 +170,9 @@ view: tabla_auteco {
   measure: promedio_precio_a {
     type: number
     sql: AVG(${precio_ajustado}) ;;
-    value_format: "$#,##0.00"
+    value_format: "$#,##0"
   }
+###################################################################3
   measure: unidades {
     type: sum
     sql: ${cantidad} ;;
@@ -185,12 +181,34 @@ view: tabla_auteco {
   set: detalles {
     fields: [empresa, segmento, subsegmento, unidades]
   }
-  dimension: valor_tmr_primera_fecha {
-    type: number
-    sql: CASE
-         WHEN ${mes} = 1 THEN ${avg_trm}
-         ELSE (SELECT ${avg_trm} FROM ${TABLE} WHERE ${mes} = 1 AND ${linea} = ${linea} GROUP BY ${linea} LIMIT 1)
-       END ;;
+
+#######################################################################################
+  parameter: filtro_medidas {
+    type: unquoted
+    allowed_value: {
+      label: "Unidades"
+      value: "unidades"
+    }
+    allowed_value: {
+      label: "Precio"
+      value: "promedio_precio"
+    }
+    allowed_value: {
+      label: "Precio ajustado"
+      value: "promedio_precio_a"
+    }
+  }
+
+  measure: medidas_dinamicas {
+    sql: {% if filtro_medidas._parameter_value == 'unidades' %}
+          ${unidades}
+        {% elsif filtro_medidas._parameter_value == 'promedio_precio' %}
+          ${promedio_precio}
+          {% elsif filtro_medidas._parameter_value == 'promedio_precio_a' %}
+          ${promedio_precio_a}
+        {% else %}
+          0
+        {% endif %} ;;
   }
 
 }
