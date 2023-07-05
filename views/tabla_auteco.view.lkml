@@ -186,7 +186,19 @@ view: tabla_auteco {
     type: sum
     sql: ${cantidad} ;;
     drill_fields: [linea_link,fecha_month,cantidad]
-    ## html: {{ unidades }} | {{  }} of total ;;
+  }
+  measure: unidades_max {
+    type: max
+    sql: ${cantidad} ;;
+  }
+  measure: unidades_min {
+    type: min
+    sql: ${cantidad} ;;
+  }
+  measure: unidades_avg {
+    type: average
+    sql: ${cantidad} ;;
+    value_format: "$#,##0"
   }
   set: detalles_unidades {
     fields: [linea_link, unidades]
@@ -221,5 +233,39 @@ view: tabla_auteco {
           0
         {% endif %} ;;
   }
+ parameter: measure_type {
+  type: unquoted
+  allowed_value: {
+    label: "Promedio"
+    value: "promedio"
+  }
+  allowed_value: {
+    label: "Máximo"
+    value: "maximo"
+  }
+  allowed_value: {
+    label: "Mínimo"
+    value: "minimo"
+  }
+  allowed_value: {
+    label: "Total de unidades"
+    value: "total"
+  }
+}
 
+
+  measure: calculo_dinamico {
+    type: number
+    sql: {% if measure_type._parameter_value == 'promedio' %}
+          ${unidades_avg}
+        {% elsif measure_type._parameter_value == 'maximo' %}
+          ${unidades_max}
+          {% elsif measure_type._parameter_value == 'minimo' %}
+          ${unidades_min}
+          {% elsif measure_type._parameter_value == 'total' %}
+          ${unidades}
+        {% else %}
+          0
+        {% endif %} ;;
+  }
 }
